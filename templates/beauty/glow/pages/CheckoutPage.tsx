@@ -1,4 +1,4 @@
-// src/templates/beauty/glow/pages/CheckoutPage.tsx
+// templates/beauty/glow/pages/CheckoutPage.tsx
 
 "use client";
 
@@ -7,7 +7,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { BeautyShell } from "../layout/Shell";
 import { useCart } from "@/components/cart";
-import { createOrderAction } from "@/lib/order-actions";
 import { formatMoney } from "@/lib/format";
 import {
   ChevronLeft,
@@ -32,44 +31,12 @@ export function BeautyCheckoutPage({ slug, store, customer }: any) {
     setLoading(true);
     setError(null);
 
-    const fd = new FormData(e.currentTarget);
-
     try {
-      const res = await createOrderAction({
-        dbName: store.dbName,
-        storeId: store.id,
-        slug,
-        customerName: String(fd.get("name")),
-        customerEmail: String(fd.get("email")),
-        items: lines,
-        subtotal,
-        shipping,
-        discount: 0,
-        total,
-        address: {
-          line1: String(fd.get("line1")),
-          line2: String(fd.get("line2") || ""),
-          city: String(fd.get("city")),
-          state: String(fd.get("state")),
-          pincode: String(fd.get("pincode")),
-          phone: String(fd.get("phone")),
-        },
-      });
+      // 🎯 Demo mode — fake submit (no DB, no server action)
+      await new Promise((resolve) => setTimeout(resolve, 1500));
 
-      // ✅ Type-safe access
-      const typedRes = res as {
-        success?: boolean;
-        orderId?: string;
-        orderNumber?: number;
-        error?: string;
-      };
-
-      if (typedRes?.success && typedRes.orderId) {
-        clear();
-        router.push(`/store/${slug}/beauty/order/${typedRes.orderId}`);
-      } else {
-        setError(typedRes?.error || "Something went wrong");
-      }
+      clear();
+      router.push(`/store/${slug}/beauty`);
     } catch (err: any) {
       console.error("[Checkout Error]:", err);
       setError(err?.message || "Order failed");
