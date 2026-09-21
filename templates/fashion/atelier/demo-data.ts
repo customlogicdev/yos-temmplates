@@ -1,0 +1,90 @@
+// src/templates/fashion/atelier/demo-data.ts
+
+export const ATELIER_DEMO = {
+  store: {
+    id: "demo",
+    name: "Atelier",
+    brandName: "Atelier",
+    tagline: "Street. Culture. Atelier.",
+    about: "Bold streetwear, crafted in Mumbai.",
+    address: "Mumbai, India",
+  },
+
+  products: [
+    {
+      id: "demo-1",
+      name: "Heavyweight Tee",
+      description: "Premium 100% cotton oversized tee",
+      image: "https://images.pexels.com/photos/9558577/pexels-photo-9558577.jpeg?auto=compress&cs=tinysrgb&w=800",
+      price: 2499,
+      compareAt: 2999,
+      category: "tops",
+      tags: ["tops", "tshirt"],
+      rating: 4.8,
+      inventory: 25,
+      metadata: {
+        sizes: ["S", "M", "L", "XL"],
+        colors: ["#000000", "#FFFFFF", "#808080"],
+        fabric: "100% Cotton",
+        fit: "oversized",
+        limitedEdition: false,
+      },
+    },
+    {
+      id: "demo-2",
+      name: "Cargo Pants",
+      description: "Technical cargo pants",
+      image: "https://images.pexels.com/photos/1598507/pexels-photo-1598507.jpeg?auto=compress&cs=tinysrgb&w=800",
+      price: 3499,
+      category: "bottoms",
+      tags: ["bottoms", "cargo"],
+      rating: 4.7,
+      inventory: 20,
+      metadata: {
+        sizes: ["S", "M", "L", "XL"],
+        colors: ["#2E2E2E", "#8B7355"],
+        fabric: "Cotton blend",
+        fit: "relaxed",
+      },
+    },
+    {
+      id: "demo-3",
+      name: "Bomber Jacket",
+      description: "Limited edition bomber",
+      image: "https://images.pexels.com/photos/1124465/pexels-photo-1124465.jpeg?auto=compress&cs=tinysrgb&w=800",
+      price: 5999,
+      category: "outerwear",
+      tags: ["outerwear"],
+      rating: 4.9,
+      inventory: 10,
+      metadata: {
+        sizes: ["M", "L", "XL"],
+        colors: ["#000000"],
+        fabric: "Nylon",
+        limitedEdition: true,
+      },
+    },
+    {
+      id: "demo-4",
+      name: "Hoodie",
+      description: "Oversized hoodie",
+      image: "https://images.pexels.com/photos/1183266/pexels-photo-1183266.jpeg?auto=compress&cs=tinysrgb&w=800",
+      price: 2999,
+      category: "tops",
+      tags: ["tops", "hoodie"],
+      rating: 4.6,
+      inventory: 30,
+      metadata: {
+        sizes: ["S", "M", "L", "XL"],
+        colors: ["#000000", "#FFFFFF"],
+        fabric: "Fleece",
+      },
+    },
+  ],
+
+  categories: [
+    { id: "tops", slug: "tops", name: "Tops", count: 2 },
+    { id: "bottoms", slug: "bottoms", name: "Bottoms", count: 1 },
+    { id: "outerwear", slug: "outerwear", name: "Outerwear", count: 1 },
+  ],
+};
