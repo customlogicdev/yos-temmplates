@@ -1,4 +1,4 @@
-// src/templates/beauty/glow/pages/CheckoutPage.tsx
+// templates/beauty/glow/pages/CheckoutPage.tsx
 
 "use client";
 
@@ -7,7 +7,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { BeautyShell } from "../layout/Shell";
 import { useCart } from "@/components/cart";
-import { createOrderAction } from "@/lib/order-actions";
 import { formatMoney } from "@/lib/format";
 import {
   ChevronLeft,
@@ -18,7 +17,8 @@ import {
   ArrowRight,
 } from "lucide-react";
 
-export function BeautyCheckoutPage({ slug, store, customer }: any) {
+export function BeautyCheckoutPage({ slug, store, customer, basePath }: any) {
+  const base = basePath || `/${slug}`;
   const router = useRouter();
   const { lines, subtotal, clear } = useCart();
   const [loading, setLoading] = useState(false);
@@ -32,57 +32,20 @@ export function BeautyCheckoutPage({ slug, store, customer }: any) {
     setLoading(true);
     setError(null);
 
-    const fd = new FormData(e.currentTarget);
+    // 🎯 Demo mode — fake submit (no DB)
+    await new Promise((resolve) => setTimeout(resolve, 1500));
 
-    try {
-      const res = await createOrderAction({
-        dbName: store.dbName,
-        storeId: store.id,
-        slug,
-        customerName: String(fd.get("name")),
-        customerEmail: String(fd.get("email")),
-        items: lines,
-        subtotal,
-        shipping,
-        discount: 0,
-        total,
-        address: {
-          line1: String(fd.get("line1")),
-          line2: String(fd.get("line2") || ""),
-          city: String(fd.get("city")),
-          state: String(fd.get("state")),
-          pincode: String(fd.get("pincode")),
-          phone: String(fd.get("phone")),
-        },
-      });
+    clear();
+    router.push(`${base}?page=home`);
 
-      // ✅ Type-safe access
-      const typedRes = res as {
-        success?: boolean;
-        orderId?: string;
-        orderNumber?: number;
-        error?: string;
-      };
-
-      if (typedRes?.success && typedRes.orderId) {
-        clear();
-        router.push(`/store/${slug}/beauty/order/${typedRes.orderId}`);
-      } else {
-        setError(typedRes?.error || "Something went wrong");
-      }
-    } catch (err: any) {
-      console.error("[Checkout Error]:", err);
-      setError(err?.message || "Order failed");
-    } finally {
-      setLoading(false);
-    }
+    setLoading(false);
   };
 
   // Empty cart state
   if (lines.length === 0) {
     return (
       <BeautyShell
-        props={{ data: { store }, basePath: `/store/${slug}` }}
+        props={{ data: { store }, basePath: base }}
         slug={slug}
       >
         <div className="mx-auto max-w-2xl px-6 py-20 text-center">
@@ -93,7 +56,7 @@ export function BeautyCheckoutPage({ slug, store, customer }: any) {
             Add some products to your bag first.
           </p>
           <Link
-            href={`/store/${slug}/beauty/shop`}
+            href={`${base}?page=products`}
             className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#2A2438] px-7 py-3.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white hover:bg-pink-500"
           >
             Start Shopping
@@ -106,13 +69,13 @@ export function BeautyCheckoutPage({ slug, store, customer }: any) {
 
   return (
     <BeautyShell
-      props={{ data: { store }, basePath: `/store/${slug}` }}
+      props={{ data: { store }, basePath: base }}
       slug={slug}
     >
       <div className="mx-auto max-w-[1200px] px-6 py-12">
         {/* Back */}
         <Link
-          href={`/store/${slug}/beauty/cart`}
+          href={`${base}?page=cart`}
           className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.15em] text-[#2A2438]/50 hover:text-pink-500"
         >
           <ChevronLeft className="h-3.5 w-3.5" />
